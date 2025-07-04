@@ -1,7 +1,10 @@
 import os
 import psycopg2
 
+from dotenv import load_dotenv
 from typing import Optional, Tuple, Any, Union, List
+
+load_dotenv()
 
 def get_connection():
     return psycopg2.connect(
