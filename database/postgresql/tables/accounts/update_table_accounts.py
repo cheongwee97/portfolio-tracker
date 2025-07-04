@@ -3,23 +3,21 @@ from typing import Optional
 from datetime import datetime
 from psycopg2 import errors
 
+from database.postgresql.tables.accounts.obj.accounts import Account
 from database.postgresql.utils.psql_conn import get_connection, execute
-
-@dataclass
-class Account:
-    account_id: Optional[str]
-    username: str
-    email: str
-    password_hash: str
-    created_at: Optional[datetime]
-    updated_at: Optional[datetime]
 
 def create_account(account: Account) -> None:
     query_template = """
     INSERT INTO accounts (username, email, password_hash)
     VALUES (%s, %s, %s)
     """
-    execute(query_template, (account.username, account.email, account.password_hash))
+    try:
+        execute(query_template, (account.username, account.email, account.password_hash))
+        return True
+    except errors.UniqueViolation:
+        # Handle username taken error
+        print("Username already taken.")
+        return False
 
 def modify_account_username(account_id: str, new_username: str) -> bool:
     query_template = """

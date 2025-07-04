@@ -3,7 +3,7 @@ from typing import List
 from database.postgresql.utils.psql_conn import execute
 
 def get_all_create_table_path() -> List[str]:
-    files = glob.glob("database/postgresql/schema/**/create_table_*.sql", recursive=True)
+    files = glob.glob("database/postgresql/tables/**/create_table_*.sql", recursive=True)
     return files
 
 def read_sql_file(file_path: str) -> str:
@@ -17,7 +17,7 @@ def main():
     files = get_all_create_table_path()
     for fp in files:
         create_table_sql = read_sql_file(fp)
-        print(create_table_sql)
+        execute_create_table(create_table_sql=create_table_sql)
 
 if __name__ == "__main__":
     main()
