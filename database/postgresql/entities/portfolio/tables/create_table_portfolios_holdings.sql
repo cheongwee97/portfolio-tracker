@@ -5,6 +5,5 @@ CREATE TABLE IF NOT EXISTS portfolio_holdings (
     quantity DOUBLE PRECISION NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-
     UNIQUE (portfolio_id, ticker)
 );

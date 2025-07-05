@@ -25,12 +25,27 @@ def execute(query: str, values: Optional[Union[Tuple[Any, ...], list[Any]]] = No
     finally:
         conn.close()
 
-def query_table(query: str, values: Optional[Union[Tuple[Any, ...], list[Any]]] = None) -> List[Tuple[Any, ...]]:
+def query_table(
+    query: str,
+    values: Optional[Union[Tuple[Any, ...], List[Any]]] = None,
+    fetch: str = 'all',
+    many_size: int = 10
+) -> Union[List[Tuple[Any, ...]], Tuple[Any, ...], None]:
     conn = get_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(query, values or ())
-                return cur.fetchall()
+                
+                if fetch == 'all':
+                    return cur.fetchall()
+                elif fetch == 'one':
+                    return cur.fetchone()
+                elif fetch == 'many':
+                    return cur.fetchmany(many_size)
+                else:
+                    raise ValueError(f"Unknown fetch option: {fetch}")
     finally:
         conn.close()
+
+conn = get_connection()
