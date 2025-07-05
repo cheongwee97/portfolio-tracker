@@ -1,0 +1,12 @@
+FROM python:3.9.6-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY database .
+
+RUN chmod -R 755 database
+
+CMD ["python", "database/postgresql/entrypoints/create_tables_entrypoint.py"]

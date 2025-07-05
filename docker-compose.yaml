@@ -14,5 +14,13 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  init-db:
+    build:
+      context: .
+      dockerfile: Dockerfile-init-db
+    depends_on:
+      - postgres
+    restart: "no"
+
 volumes:
   pgdata:
