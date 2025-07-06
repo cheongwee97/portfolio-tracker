@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: postgres
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    container_name: timescaledb
     restart: always
     ports:
       - "${DB_PORT}:${DB_PORT}"
@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - timescale_data:/var/lib/postgresql/data
   redis:
     image: redis:latest
     container_name: redis
@@ -29,11 +29,11 @@ services:
     env_file:
       - .env
     depends_on:
-      - postgres
+      - timescaledb
       - redis
     restart: always
   
 
 volumes:
-  pgdata:
+  timescale_data:
   redis_data:
