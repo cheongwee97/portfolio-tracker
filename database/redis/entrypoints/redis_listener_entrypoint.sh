@@ -2,13 +2,16 @@
 
 echo "▶ Starting redis listener scripts..."
 
+found=0
+
 for script in database/redis/listeners/listener_*.py; do
   if [ -f "$script" ]; then
-    echo "▶ Running $script"
-    python "$script" &
-  else
-    echo "⚠️ No listener scripts found matching pattern."
+    found=1
+    echo "Running $script"
+    python -u "$script"
   fi
 done
 
-wait
+if [ "$found" -eq 0 ]; then
+  echo "No listener scripts found matching pattern."
+fi

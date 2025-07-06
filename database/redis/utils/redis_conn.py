@@ -3,7 +3,7 @@ import redis
 from dotenv import load_dotenv
 load_dotenv()
 
-REDIS_HOST=os.getenv("REDIS_HOST", "localhost")
+REDIS_HOST=os.getenv("REDIS_HOSTNAME", "redis")
 REDIS_PORT=os.getenv("REDIS_PORT", 6379)
 
 def get_redis_client(redis_host, redis_port, decode_response=True):
