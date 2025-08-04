@@ -3,3 +3,5 @@ venv
 
 # Local env
 .env
+.vscode
+.pytest_cache
